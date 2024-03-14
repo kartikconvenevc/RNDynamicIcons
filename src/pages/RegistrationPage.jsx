@@ -8,8 +8,10 @@ import {
   TouchableOpacity,
   View,
   TextInput,
+  Alert,
 } from 'react-native';
 import {changeIcon, getIcon} from 'react-native-change-icon';
+import axios from 'axios';
 
 import logo1 from '../assets/1.png';
 import logo2 from '../assets/2.png';
@@ -73,24 +75,26 @@ const RegistrationPage = () => {
       const response = await axios.post('https://app.sutradhar.tech/api/api/v1/geticontesting/', {
         mobileNumber,
       });
-
+  
       if (response.data.success) {
         Alert.alert('Registration Successful');
         changeIcon('icon_2');
         console.log('Icon Changed');
-        
+      changeIcon(appIcons[1].label);
+
       } else {
         Alert.alert('Not Registered', 'Registration failed');
         changeIcon('icon_3');
         console.log('Icon Changed');
-         
-        // changeIcon('demo.png');
-        // changeIcon('Demo');
-        // changeIconLabel('Demo');
+      changeIcon(appIcons[2].label);
 
       }
     } catch (error) {
-      console.error('API Request failedd:', error);
+      Alert.alert('Error', 'Failed to register. Please try again later.');
+      console.error('API Request failed:', error);
+      // If API request fails, set the icon to default
+      changeIcon(appIcons[0].label);
+      console.log('Icon Changed');
     }
   };
 
